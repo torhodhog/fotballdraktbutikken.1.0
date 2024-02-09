@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { SearchParamTypes } from "@/types/SearchParamTypes";
 import formatPrice from "@/utils/PriceFormat";
-// import AddCart from "./AddCart";
+import AddCart from "../AddCart";
 
 export default async function Product({ searchParams }: SearchParamTypes) {
   return (
@@ -22,7 +22,7 @@ export default async function Product({ searchParams }: SearchParamTypes) {
             {searchParams.unit_amount && formatPrice(searchParams.unit_amount)}
          </p>
         </div>
-         {/* <AddCart {...searchParams} /> */}
+         <AddCart {...searchParams} />
       </div>
     </div>
   );
