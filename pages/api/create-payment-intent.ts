@@ -30,14 +30,18 @@ export default async function handler(
   //Extract the data from the body
   const { items, payment_intent_id } = req.body;
 
-  //Create the order data
+  // Check if items is an array
+  if (!Array.isArray(items)) {
+    res.status(400).json({ error: "Invalid items" });
+    return;
+  }
 
   const orderData = {
     user: { connect: { id: userSession.user?.id } },
     amount: calculateOrderAmount(items),
     currency: "NOK",
     status: "pending",
-    paymentIntentID: payment_intent_id,
+    paymentIntentId: payment_intent_id,
     products: {
       create: items.map((item) => ({
         name: item.name,
@@ -98,10 +102,10 @@ export default async function handler(
       automatic_payment_methods: { enabled: true },
     });
 
-    orderData.paymentIntentID = paymentIntent.id;
+    orderData.paymentIntentId = paymentIntent.id; // Endret fra paymentIntentID til paymentIntentId
     const newOrder = await prisma.order.create({
       data: orderData,
-    });
+    })
     res.status(200).json({ paymentIntent });
   }
 }
