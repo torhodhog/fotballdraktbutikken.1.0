@@ -2,6 +2,8 @@ type Params = {
    id: string,
 }
 
+
+
 type SearchParams = {
    name: string, 
    image: string,

@@ -10,15 +10,14 @@ const getProducts = async () => {
   const productWithPrices = await Promise.all(
     products.data.map(async (product) => {
       const prices = await stripe.prices.list({ product: product.id });
-      const features = product.metadata.features || "";
       return {
         id: product.id,
         name: product.name,
         unit_amount: prices.data[0].unit_amount,
         image: product.images[0],
         currency: prices.data[0].currency,
-        description: product.description, // Corrected here
-        metadata: { features }
+        description: product.description,
+        metadata: product.metadata // Changed here
       };
     })
   );
