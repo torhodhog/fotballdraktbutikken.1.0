@@ -7,7 +7,7 @@ const getProducts = async () => {
   });
   const products = await stripe.products.list();
 
-  const productWithPices = await Promise.all(
+  const productWithPrices = await Promise.all(
     products.data.map(async (product) => {
       const prices = await stripe.prices.list({ product: product.id });
       const features = product.metadata.features || "";
@@ -17,12 +17,12 @@ const getProducts = async () => {
         unit_amount: prices.data[0].unit_amount,
         image: product.images[0],
         currency: prices.data[0].currency,
-        desacription: product.description,
+        description: product.description, // Corrected here
         metadata: { features }
       };
     })
   );
-  return productWithPices;
+  return productWithPrices;
 };
 
 export default async function Home() {

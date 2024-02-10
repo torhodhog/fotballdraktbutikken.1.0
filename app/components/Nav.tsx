@@ -8,6 +8,7 @@ import Cart from "./Cart";
 import { useCartStore } from "@/store";
 import { createStore } from "zustand";
 import { AiFillShopping } from "react-icons/ai";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Nav({ user }: Session) {
   const createStore = useCartStore();
@@ -18,11 +19,23 @@ export default function Nav({ user }: Session) {
       </Link>
       <ul className="flex items-center gap-12">
         {/* Toggle the cart */}
-        <li onClick={() => createStore.toggleCart()} className="flex items-center text-3xl relative cursor-pointer">
+        <li
+          onClick={() => createStore.toggleCart()}
+          className="flex items-center text-3xl relative cursor-pointer"
+        >
           <AiFillShopping />
-          <span className="bg-teal-700 text-white text-sm font-bold w-5 h-5 rounded-full absolute left-4 bottom-4 flex item-center justify-center">
-            {createStore.cart.length}
-          </span>
+          <AnimatePresence>
+            {createStore.cart.length > 0 && (
+              <motion.span
+                animate={{ scale: 1 }}
+                initial={{ scale: 0 }}
+                exit={{ scale: 0 }}
+                className="bg-teal-700 text-white text-sm font-bold w-5 h-5 rounded-full absolute left-4 bottom-4 flex item-center justify-center"
+              >
+                {createStore.cart.length}
+              </motion.span>
+            )}
+          </AnimatePresence>
         </li>
         {/* Sjekker om: hvis brukeren ikke er logget inn, vises en knapp for å logge inn */}
         {!user && (
@@ -42,7 +55,9 @@ export default function Nav({ user }: Session) {
           </li>
         )}
       </ul>
+      <AnimatePresence>
       {createStore.isOpen && <Cart />}
+      </AnimatePresence>
     </nav>
   );
 }
