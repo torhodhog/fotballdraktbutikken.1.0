@@ -70,5 +70,6 @@ export default function CheckoutForm({
         </span>
       </button>
     </form>
-  );
+  )
+  
 }

@@ -106,6 +106,6 @@ export default async function handler(
     const newOrder = await prisma.order.create({
       data: orderData,
     })
-    res.status(200).json({ paymentIntent });
+    res.status(200).json( paymentIntent );
   }
 }

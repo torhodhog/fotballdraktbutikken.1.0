@@ -9,6 +9,7 @@ import Checkout from "./Checkout";
 
 const Cart = () => {
   const cartStore = useCartStore();
+  
 
   const totalPrice = cartStore.cart.reduce((acc, item) => {
     return acc + item.unit_amount! * item.quantity!;

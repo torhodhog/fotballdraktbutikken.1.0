@@ -33,7 +33,9 @@ export default function Checkout() {
         return res.json();
       })
       .then((data) => {
-        setClientSecret(data.clientSecret); // Set the clientSecret here
+        console.log('Data:', data); // Log data object
+        setClientSecret(data.client_secret);
+        console.log('clientSecret:', data.clientSecret); // Log clientSecret
       });
   }, []);
   const options: StripeElementsOptions = {
