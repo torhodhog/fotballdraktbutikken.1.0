@@ -91,7 +91,7 @@ const Cart = () => {
             <p>Totalt: {formatPrice(totalPrice)}</p>
             <button 
             onClick={() => cartStore.setCheckout('checkout')}
-            className="py-2 mt-4 bg-teal-700 w-full text-white rounded-md">
+            className="py-2 mt-4 bg-primary w-full text-white rounded-md">
               Checkout
             </button>
           </motion.div>

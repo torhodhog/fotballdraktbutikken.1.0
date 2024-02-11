@@ -7,7 +7,7 @@ export default function Product({ name, image, unit_amount, id, description, met
    const { features } = metadata;
 
    return (
-      <Link href={{ pathname: `/product/${id}`, query: { name, image, unit_amount, id, description } }}>
+      <Link href={{ pathname: `/product/${id}`, query: { name, image, unit_amount, id, description, features } }}>
          <div>
             <Image
                src={image}
@@ -18,7 +18,7 @@ export default function Product({ name, image, unit_amount, id, description, met
             />
             <div className="font-medium py-2">
                <h1>{name}</h1>
-               <h2 className="text-sm text-teal-700">{unit_amount && formatePrice(unit_amount)}</h2>
+               <h2 className="text-sm text-primary">{unit_amount && formatePrice(unit_amount)}</h2>
             </div>
          </div>
       </Link>
