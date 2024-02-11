@@ -7,8 +7,8 @@ export default function Product({ name, image, unit_amount, id, description, met
    const { features } = metadata;
 
    return (
-      <Link href={{ pathname: `/product/${id}`, query: { name, image, unit_amount, id } }}>
-         <div className="text-gray-700 cursor-pointer">
+      <Link href={{ pathname: `/product/${id}`, query: { name, image, unit_amount, id, description } }}>
+         <div>
             <Image
                src={image}
                alt={name}

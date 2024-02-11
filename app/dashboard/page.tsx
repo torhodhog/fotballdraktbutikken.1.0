@@ -14,7 +14,7 @@ const fetchOrders = async () => {
     return null;
   }
   const orders = await prisma.order.findMany({
-    where: { userId: user.user.id },
+    where: { userId: user.user.id, status: "complete" },
     include: { products: true },
   });
   return orders;
@@ -36,8 +36,8 @@ export default async function Dashboard() {
       <div className="font-medium ">
         {orders.map((order) => (
           <div key={order.id} className="rounded-lg p-8 my-12">
-            <h2>Referansenummer: {order.id}</h2>
-            <p>Time: {new Date(order.createdDate).toString()}</p>
+            <h2 className="text-sm font-medium">Referansenummer: {order.id}</h2>
+            <p className="text-sm">Time: {new Date(order.createdDate).toString()}</p>
             <p className="text-md py-2">
               Status:{" "}
               <span
