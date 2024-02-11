@@ -16,12 +16,12 @@ type CartState = {
 };
 
 export const useCartStore = create<CartState>(
-  (persist(
+  persist(
     (set) => ({
       cart: [],
       isOpen: false,
       paymentIntent: "",
-      onCheckout: 'cart',
+      onCheckout: "cart",
       toggleCart: () => set((state) => ({ isOpen: !state.isOpen })),
       addProduct: (item) =>
         set((state) => {
@@ -31,7 +31,10 @@ export const useCartStore = create<CartState>(
           if (existingItem) {
             const updatedCart = state.cart.map((cartItem) => {
               if (cartItem.id === item.id) {
-                return { ...cartItem, quantity: cartItem.quantity as number + 1 };
+                return {
+                  ...cartItem,
+                  quantity: (cartItem.quantity as number) + 1,
+                };
               }
               return cartItem;
             });
@@ -42,30 +45,44 @@ export const useCartStore = create<CartState>(
             };
           }
         }),
-      removeProduct: (item) => 
-      set((state) => {
-        const existingItem = state.cart.find(
-          (cartItem) => cartItem.id === item.id
-        )
-        if(existingItem && existingItem.quantity! > 1){
-          const updatedCart = state.cart.map((cartItem)=> {
-            if (cartItem.id === item.id){
-              return {...cartItem, quantity: cartItem.quantity! -1}
-            }
-            return cartItem
-          })
-          return { cart: updatedCart }
-        } else {
-          const filteredCart = state.cart.filter(
-            (cartItem) => cartItem.id !== item.id
-          )
-          return { cart: filteredCart }
-        }
-      }),
+      removeProduct: (item) =>
+        set((state) => {
+          const existingItem = state.cart.find(
+            (cartItem) => cartItem.id === item.id
+          );
+          if (existingItem && existingItem.quantity! > 1) {
+            const updatedCart = state.cart.map((cartItem) => {
+              if (cartItem.id === item.id) {
+                return { ...cartItem, quantity: cartItem.quantity! - 1 };
+              }
+              return cartItem;
+            });
+            return { cart: updatedCart };
+          } else {
+            const filteredCart = state.cart.filter(
+              (cartItem) => cartItem.id !== item.id
+            );
+            return { cart: filteredCart };
+          }
+        }),
       setPaymentIntent: (val) => set({ paymentIntent: val }),
-      setCheckout:  (val) => set({ onCheckout: val }),
+      setCheckout: (val) => set({ onCheckout: val }),
       clearCart: () => set((state) => ({ cart: [] })),
     }),
     { name: "cart-store" }
-  ) as unknown) as StateCreator<CartState>
+  ) as unknown as StateCreator<CartState>
+);
+type ThemeState = {
+  mode: "light" | "dark";
+  toggleMode: (theme: "light" | "dark") => void;
+};
+
+export const useThemeStore = create<ThemeState>(
+  persist(
+    (set) => ({
+      mode: "light",
+      toggleMode: (theme) => set(() => ({ mode: theme })),
+    }),
+    { name: "theme-store" }
+  )
 );

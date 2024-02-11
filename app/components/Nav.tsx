@@ -10,6 +10,7 @@ import { createStore } from "zustand";
 import { AiFillShopping } from "react-icons/ai";
 import { AnimatePresence, motion } from "framer-motion";
 import { sign } from "crypto";
+import DarkLight from "./DarkLight";
 
 export default function Nav({ user }: Session) {
   const createStore = useCartStore();
@@ -18,7 +19,7 @@ export default function Nav({ user }: Session) {
       <Link href="/">
         <h1>Styled</h1>
       </Link>
-      <ul className="flex items-center gap-12">
+      <ul className="flex items-center gap-8">
         {/* Toggle the cart */}
         <li
           onClick={() => createStore.toggleCart()}
@@ -38,6 +39,7 @@ export default function Nav({ user }: Session) {
             )}
           </AnimatePresence>
         </li>
+        <DarkLight />
         {/* Sjekker om: hvis brukeren ikke er logget inn, vises en knapp for å logge inn */}
         {!user && (
           <li className="bg-primary text-white py-2 px-3 rounded-md">
