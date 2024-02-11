@@ -26,7 +26,7 @@ const Cart = () => {
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-white absolute right-0 top-0 h-screen p-12 overflow-y-scroll text-gray w-full lg:w-2/5"
+        className="bg-base-300 absolute right-0 top-0 h-screen p-12 overflow-y-scroll text-gray w-full lg:w-2/5"
       >
         {cartStore.onCheckout === 'cart' && (
         <button onClick={() => cartStore.toggleCart()} className="text-sm font-bold pb-12">Tilbake til butikk 🏃</button>
@@ -38,9 +38,9 @@ const Cart = () => {
         {cartStore.onCheckout === 'cart' && (
           <>
             {cartStore.cart.map((item) => (
-              <div className="flex py-4 gap-4" key={item.id}>
+              <div className="flex p-4 bg-base-100 my-4 rounded-lg" key={item.id}>
                 <Image
-                  className="rounded-md h-34"
+                  className="ml-4 mr-4 rounded-md h-34"
                   src={item.image}
                   alt={item.name}
                   width={120}
