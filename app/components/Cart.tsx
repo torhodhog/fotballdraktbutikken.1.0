@@ -27,7 +27,12 @@ const Cart = () => {
         onClick={(e) => e.stopPropagation()}
         className="bg-white absolute right-0 top-0 h-screen p-12 overflow-y-scroll text-gray w-full lg:w-2/5"
       >
-        <button onClick={() => cartStore.toggleCart()} className="text-sm font-bold pb-12">Tilbake til butikk</button>
+        {cartStore.onCheckout === 'cart' && (
+        <button onClick={() => cartStore.toggleCart()} className="text-sm font-bold pb-12">Tilbake til butikk 🏃</button>
+        )}
+          {cartStore.onCheckout === 'checkout' && (
+        <button onClick={() => cartStore.setCheckout('cart')} className="text-sm font-bold pb-12">Sjekk handlevognen din  🛒</button>
+        )}
         {/* Cart Items */}
         {cartStore.onCheckout === 'cart' && (
           <>
