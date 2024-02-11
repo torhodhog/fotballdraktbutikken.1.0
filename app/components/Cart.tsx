@@ -85,7 +85,7 @@ const Cart = () => {
             ))}
           </>
         )}
-        {cartStore.cart.length > 0 && (
+        {cartStore.cart.length > 0 && cartStore.onCheckout === "cart" ? (
           <motion.div layout>
             <p>Totalt: {formatPrice(totalPrice)}</p>
             <button 
@@ -94,7 +94,7 @@ const Cart = () => {
               Checkout
             </button>
           </motion.div>
-        )}
+        ): null}
         {/* Checkout form */}
         {cartStore.onCheckout === 'checkout' && <Checkout />}
         <AnimatePresence>
