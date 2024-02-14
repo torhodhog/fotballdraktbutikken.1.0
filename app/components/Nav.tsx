@@ -11,83 +11,67 @@ import { AiFillShopping } from "react-icons/ai";
 import { AnimatePresence, motion } from "framer-motion";
 import { sign } from "crypto";
 import DarkLight from "./DarkLight";
-
+import { useMediaQuery } from "react-responsive";
 export default function Nav({ user }: Session) {
   const createStore = useCartStore();
   return (
-    <nav className="flex justify-between items-center py-12">
-      <Link href="/">
-        <h1>Styled</h1>
-      </Link>
-<ul>
-  <li><Link href="/Products">Produkter</Link></li>
-</ul>
+    <nav>
+      <div className="navbar bg-base-100">
+        <div className="navbar-start">
+          <Link href="/" className="btn btn-ghost text-xl">
+            fotballdraktbutikken.
+          </Link>
+        </div>
 
-      <ul className="flex items-center gap-8">
-        {/* Toggle the cart */}
-        <li
-          onClick={() => createStore.toggleCart()}
-          className="flex items-center text-3xl relative cursor-pointer"
-        >
-          <AiFillShopping />
-          <AnimatePresence>
+        <div className="navbar-center hidden md:flex">
+          <ul className="menu menu-horizontal p-0">
+            <li><Link href="/">Produkter</Link></li>
+            <li><Link href="/">Salg</Link></li>
+            <li><Link href="/">Kontakt</Link></li>
+          </ul>
+        </div>
+
+        <div className="navbar-end flex items-center gap-4 md:gap-6 py-5">
+          <div onClick={() => createStore.toggleCart()} className="cursor-pointer">
+            <ul className="flex items-center gap-12">
+            <li className="flec items-center text-3xl relative cursor-pointer">
+            <AiFillShopping />
             {createStore.cart.length > 0 && (
-              <motion.span
-                animate={{ scale: 1 }}
-                initial={{ scale: 0 }}
-                exit={{ scale: 0 }}
-                className="bg-primary text-white text-sm font-bold w-5 h-5 rounded-full absolute left-4 bottom-4 flex item-center justify-center"
-              >
+              <span className="badge  badge-primary text-white text-sm font-bold w-5 h-5 rounded-full absolute left-4 bottom-4">
                 {createStore.cart.length}
-              </motion.span>
+              </span>
+             
             )}
-          </AnimatePresence>
-        </li>
-        <DarkLight />
-        {/* Sjekker om: hvis brukeren ikke er logget inn, vises en knapp for å logge inn */}
-        {!user && (
-          <li className="bg-primary text-white py-2 px-3 rounded-md">
-            <button onClick={() => signIn()}>Sign in</button>
-          </li>
-        )}
-        {user && (
-          <li>
-            <div className="dropdown dropdown-end cursor-pointer">
-              <Image
-                src={user?.image as string}
-                alt={user.name as string}
-                width={36}
-                height={36}
-                className="rounded-full"
-                tabIndex={0}
-              />
-              <ul
-                tabIndex={0}
-                className="dropdown-content menu p-4 space-y-4 shadow bg-base-100 w-72"
-              >
-                <Link
-                  className="hover:bg-base-300 p-4 rounded-md"
-                  href={"/dashboard"}
-                  onClick={() => {
-                    if (document.activeElement instanceof HTMLElement) {
-                      document.activeElement.blur();
-                    }
-                  }}
-                ></Link>
-                <li className="hover:bg-base-300 p-4 rounded-md"
-                onClick={() => {
-                  signOut();
-                  if (document.activeElement instanceof HTMLElement) {
-                    document.activeElement.blur();
-                  }
-                }}
-                >Logg Ut</li>
+             </li>
+             </ul>
+          </div>
+          
+          <DarkLight className=""/>
+
+          {!user && (
+            <button className="btn btn-primary" onClick={() => signIn()}>
+              Logg inn
+            </button>
+          )}
+
+          {user && (
+            <div className="dropdown dropdown-end">
+              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                <div className="w-10 rounded-full">
+                  <Image src={user?.image as string} alt={user.name as string} width={40} height={40} />
+                </div>
+              </label>
+              <ul tabIndex={0} className="dropdown-content menu p-4 shadow bg-base-100 rounded-box w-52">
+                <li><Link href="/">Hjem</Link></li>
+                <li><Link href="/dashboard">Dashboard</Link></li>
+                <li><a onClick={() => signOut()}>Logg Ut</a></li>
               </ul>
             </div>
-          </li>
-        )}
-      </ul>
-      <AnimatePresence>{createStore.isOpen && <Cart />}</AnimatePresence>
+          )}
+        </div>
+
+        <AnimatePresence>{createStore.isOpen && <Cart />}</AnimatePresence>
+      </div>
     </nav>
   );
 }
