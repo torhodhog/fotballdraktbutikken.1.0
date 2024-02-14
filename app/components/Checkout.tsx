@@ -9,7 +9,7 @@ import CheckoutForm from "./CheckoutForm";
 import OrderAnimation from "./OrderAnimation";
 import { motion } from "framer-motion";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 export default function Checkout() {
   const cartStore = useCartStore();
@@ -37,7 +37,7 @@ export default function Checkout() {
       .then((data) => {
         console.log('Data:', data); // Log data object
         setClientSecret(data.client_secret);
-        console.log('clientSecret:', data.clientSecret); // Log clientSecret
+        console.log('clientSecret:', data.client_secret); // Log clientSecret
       });
   }, []);
   const options: StripeElementsOptions = {

@@ -37,7 +37,7 @@ export default function CheckoutForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Button clicked");
+
 
     if (!stripe || !elements) {
       console.log("Stripe has not loaded or elements are missing");

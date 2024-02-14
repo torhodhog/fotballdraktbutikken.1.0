@@ -19,6 +19,10 @@ export default function Nav({ user }: Session) {
       <Link href="/">
         <h1>Styled</h1>
       </Link>
+<ul>
+  <li><Link href="/Products">Produkter</Link></li>
+</ul>
+
       <ul className="flex items-center gap-8">
         {/* Toggle the cart */}
         <li

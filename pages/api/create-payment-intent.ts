@@ -22,6 +22,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  console.log('API endpoint called');
+
   const userSession = await getServerSession(req, res, authOptions);
   if (!userSession?.user) {
     res.status(403).json({ error: "Not logged in" });
@@ -41,7 +43,7 @@ export default async function handler(
     amount: calculateOrderAmount(items),
     currency: "NOK",
     status: "pending",
-    paymentIntentId: payment_intent_id,
+    paymentIntentID: payment_intent_id,
     products: {
       create: items.map((item) => ({
         name: item.name,
@@ -68,14 +70,14 @@ export default async function handler(
 
       //Fetch order with product ids
       const existing_order = await prisma.order.findFirst({
-        where: { paymentIntentId: updated_intent.id },
+        where: { paymentIntentID: updated_intent.id },
         include: { products: true },
       });
       if (!existing_order) {
         res.status(400).json({ message: "Invalid Payment Intent" });
       }
       //Update existing order
-      const updated_order = await prisma.order.update({
+      prisma.order.update({
         where: { id: existing_order?.id },
         data: {
           amount: calculateOrderAmount(items),
@@ -100,9 +102,10 @@ export default async function handler(
       amount: calculateOrderAmount(items),
       currency: "NOK",
       automatic_payment_methods: { enabled: true },
+
     });
 
-    orderData.paymentIntentId = paymentIntent.id; // Endret fra paymentIntentID til paymentIntentId
+    orderData.paymentIntentID = paymentIntent.id; // Endret fra paymentIntentID til paymentIntentId
     const newOrder = await prisma.order.create({
       data: orderData,
     })

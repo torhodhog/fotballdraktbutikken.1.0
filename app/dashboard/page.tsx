@@ -1,68 +1,82 @@
-import { PrismaClient } from "@prisma/client";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import Image from "next/image";
-import { format } from "path";
-import formatPrice from "@/utils/PriceFormat";
+"use client"
 
-export const revalidate = 0;
+import { PrismaClient } from "@prisma/client"
+import Image from "next/image"
+import { useEffect, useState } from "react"
+import { motion } from "framer-motion"
+import formatPrice from "@/utils/PriceFormat"
 
-const fetchOrders = async () => {
-  const prisma = new PrismaClient();
-  const user = await getServerSession(authOptions);
-  if (!user) {
-    return null;
+export default function Dashboard() {
+  const [orders, setOrders] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const fetchOrders = async () => {
+    const res = await fetch("/api/get-orders")
+    const data = await res.json()
+    return data
   }
-  const orders = await prisma.order.findMany({
-    where: { userId: user.user.id, status: "complete" },
-    include: { products: true },
-  });
-  return orders;
-};
-
-export default async function Dashboard() {
-  const orders = await fetchOrders();
-  if (orders === null)
-    return <div>Du må være logget inn for å se dine bestillinger</div>;
-  if (orders.length === 0) {
-    return (
-      <div>
-        <h1>Ingen bestillinger</h1>
-      </div>
-    );
-  }
+  useEffect(() => {
+    fetchOrders()
+      .then((data) => {
+        setOrders(data)
+        setLoading(false)
+      })
+      .catch((err) => {
+        setError(err)
+        setLoading(false)
+      })
+  }, [])
+  console.log(orders)
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error: {error}</p>
   return (
-    <div>
-      <div className="font-medium ">
+    <motion.div layout>
+      <motion.div layout initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         {orders.map((order) => (
-          <div key={order.id} className="rounded-lg p-8 my-12 bg-base-200">
-            <h2 className="text-sm font-medium">Referansenummer: {order.id}</h2>
-            <p className="text-sm">Time: {new Date(order.createdDate).toString()}</p>
-            <p className="text-md py-2">
-              Status:{" "}
+          <div
+            key={order.id}
+            className="rounded-lg p-8 my-4 space-y-2 bg-base-200"
+          >
+            <h2 className="text-xs font-medium">Order reference: {order.id}</h2>
+            <p className="text-xs">
+              Status:
               <span
                 className={`${
                   order.status === "complete" ? "bg-teal-500" : "bg-orange-500"
-                } text-white py-1 rounded-md px-2 mx-2 text-sm`}
+                } text-white py-1 rounded-md px-2 mx-2 text-xs`}
               >
                 {order.status}
               </span>
             </p>
-                <div className="flex gap-8">
-                  {order.products.map((product) => (
-                     <div className="py-2" key={product}>
-                        <h2 className="py-2">{product.name}</h2>
-                        <div className="flex items-center gap-4">
-                           <Image src={product.image!} width={36} height={46} alt={product.name}/>
-                           <p>{formatPrice(product.unit_amount)}</p>
-                           <p>Quantity: {product.quantity}</p>
-                        </div>
-                     </div>
-                  ))}
+
+            <p className="text-xs">
+              Time: {new Date(order.createdDate).toString()}
+            </p>
+            <div className="text-sm lg:flex items-center  gap-4">
+              {order.products.map((product) => (
+                <div className="py-2" key={product.id}>
+                  <h2 className="py-2">{product.name}</h2>
+                  <div className="flex items-baseline gap-4">
+                    <Image
+                      src={product.image!}
+                      width={36}
+                      height={36}
+                      alt={product.name}
+                      priority={true}
+                      className="w-auto"
+                    />
+                    <p>{formatPrice(product.unit_amount)}</p>
+                    <p>Quantity: {product.quantity}</p>
+                  </div>
                 </div>
+              ))}
+            </div>
+            <p className="font-medium py-2">
+              Total: {formatPrice(order.amount)}
+            </p>
           </div>
         ))}
-      </div>
-    </div>
-  );
+      </motion.div>
+    </motion.div>
+  )
 }
