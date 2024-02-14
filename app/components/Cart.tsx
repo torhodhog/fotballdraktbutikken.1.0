@@ -22,7 +22,7 @@ const Cart = () => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={() => cartStore.toggleCart()}
-      className="fixed w-full h-screen left-0 top-0  bg-black/25"
+      className="fixed w-full h-screen left-0 top-0  bg-black/25 z-10"
     >
       <div
         onClick={(e) => e.stopPropagation()}
@@ -107,7 +107,7 @@ const Cart = () => {
               exit={{ scale: 0.5, rotateZ: -10, opacity: 0 }}
               className="flex flex-col items-center gap-12 text-2xl font-medium pt-36 opacity-75"
             >
-              <h1>OOPS.. den er tom</h1>
+              <h1>OOPS.. handlekurven den er tom</h1>
               <Image src="/basket.jpg" alt="basket" width={200} height={200} />
             </motion.div>
           )}

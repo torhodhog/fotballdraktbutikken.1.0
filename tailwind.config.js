@@ -10,6 +10,9 @@ module.exports = {
       gridTemplateColumns: {
         fluid: "repeat(auto-fit, minmax(10rem,1fr))",
       },
+      colors: {
+        'custom-green': '#40B9AB',
+      },
     },
   },
   plugins: [require("daisyui")],
