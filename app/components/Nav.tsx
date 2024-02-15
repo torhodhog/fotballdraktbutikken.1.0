@@ -12,6 +12,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import { sign } from "crypto";
 import DarkLight from "./DarkLight";
 import { useMediaQuery } from "react-responsive";
+
+
+
 export default function Nav({ user }: Session) {
   const createStore = useCartStore();
   return (

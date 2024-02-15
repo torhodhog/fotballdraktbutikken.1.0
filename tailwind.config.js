@@ -13,6 +13,10 @@ module.exports = {
       colors: {
         'custom-green': '#40B9AB',
       },
+      fontSize: {
+        '9xl': '9rem',
+        '10xl': '12rem',
+      },
     },
   },
   plugins: [require("daisyui")],

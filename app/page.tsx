@@ -29,14 +29,29 @@ export default async function Home() {
   const products = await getProducts();
 
   return (
-    
     <>
-  <Hero />
-  <main className="grid grid-cols-fluid gap-12">
-    {products.map((product) => (
-      <Product {...product} key={product.id}/>
-    ))}
-  </main>
-</>
+      <Hero />
+      <main>
+        <section id="products" >
+          <h2 className="flex items-center justify-center mb-12 text-xl text-bold">produkter</h2>
+          <div className="grid grid-cols-fluid gap-12 h-auto">
+          {products.map((product) => (
+            <Product {...product} key={product.id}/>
+          ))}</div>
+        </section>
+        <section id="sale" className="h-64">
+          <h2>Salg</h2>
+          {/* Salg innhold her */}
+        </section>
+        <section id="about" className="h-64">
+          <h2>Om oss</h2>
+          {/* Om oss innhold her */}
+        </section>
+        <section id="contact" className="h-64">
+          <h2>Kontakt</h2>
+          {/* Kontakt innhold her */}
+        </section>
+      </main>
+    </>
   );
 }
